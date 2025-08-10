@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Profile Image</title>
+
+    <!-- CSS FILES -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/tooplate-clean-work.css' %}" rel="stylesheet">
+
+    <style>
+        body{
+            background-color: #8caad7;
+        }
+
+        .upload-container {
+            background-color: #79a5e6;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 100px auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .preview-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 3px solid white;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: block;
+        }
+        label {
+            color: white;
+            font-weight: bold;
+        }
+        .btn-submit {
+            background-color: white;
+            color: #79a5e6;
+            font-weight: bold;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<!-- START: HEADER -->
+<header class="site-header white-color py-2">
+    <div class="container-fluid">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-md-9 col-8 d-flex flex-wrap align-items-center">
+                <p class="d-flex me-4 mb-0 text-white">
+                    <i class="bi-house-fill me-2"></i>
+                    Private Health Services Network
+                </p>
+                <p class="d-flex d-lg-block d-md-block d-none me-4 mb-0 text-white">
+                    <i class="bi-clock-fill me-2"></i>
+                    <strong class="me-2">Mon - Fri</strong> 8:00 AM - 5:30 PM
+                </p>
+            </div>
+            <div class="col-md-3 col-4 d-flex justify-content-end">
+                <a style="background-color: #79a5e6; border: none; color: white; border-radius: 50px;" href="{% url 'logout' %}" class="btn btn-light btn-sm">
+                    <i class="bi-box-arrow-right me-1"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'ambulance.png' %}" class="logo img-fluid" alt="">
+            <span class="ms-2">Private Health Services Network</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                    {% if patient_check %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    {% elif driver_check %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'driver_home_page' %}">Home</a>
+                    </li>
+                    {% elif admin_check %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_home_page' %}">Home</a>
+                    </li>
+                    {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'services' %}">Our Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'profile_image' %}">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- END: HEADER -->
+
+<!-- PROFILE IMAGE FORM -->
+<div class="upload-container">
+    <h2 class="text-center text-white mb-4">Upload Profile Image</h2>
+    <form method="POST" action="{% url 'profile_image' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="image" class="form-label">Choose Image</label>
+            <input class="form-control" type="file" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
+        </div>
+        <img id="preview" class="preview-img" src="{% static 'default_profile_page_image.png' %}" alt="Image Preview">
+        <button type="submit" class="btn btn-submit mt-3">Submit</button>
+    </form>
+</div>
+
+<!-- START: FOOTER -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 d-flex align-items-center mb-4 pb-2">
+                <img src="{% static 'ambulance.png' %}" class="logo img-fluid" alt="">
+                <ul class="footer-menu d-flex flex-wrap ms-5">
+                    <li class="footer-menu-item"><a href="{% url 'about' %}" class="footer-menu-link">About Us</a></li>
+                    <li class="footer-menu-item"><a href="{% url 'contact' %}" class="footer-menu-link">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-5 col-12 mb-4 mb-lg-0">
+                <h5 class="site-footer-title mb-3">Our Services</h5>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <p class="text-white d-flex mb-2">
+                    <i class="bi-telephone-fill me-2"></i>
+                    <a href="tel:123456789" class="site-footer-link">123456789</a>
+                </p>
+                <p class="text-white d-flex">
+                    <i class="bi-envelope-fill me-2"></i>
+                    <a href="mailto:gmail@company.com" class="site-footer-link">gmail@company.com</a>
+                </p>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6 mt-3">
+                <div class="featured-block">
+                    <h5 class="text-white mb-3">Health Care Services</h5>
+                    <strong class="d-block text-white mb-1">Mon - Fri</strong>
+                    <p class="text-white mb-3">8:00 AM - 5:30 PM</p>
+                    <strong class="d-block text-white mb-1">Sat</strong>
+                    <p class="text-white mb-0">6:00 AM - 2:30 PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="site-footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <p class="copyright-text mb-0">Copyright © 2025 Health services.</p>
+                </div>
+                <div class="col-lg-6 col-12 text-end">
+                    <p class="copyright-text mb-0">Designed by xyz</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- END: FOOTER -->
+
+<!-- JS FILES -->
+<script src="{% static 'js/jquery.min.js' %}"></script
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>About Us | Personal Health Services Network</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/tooplate-clean-work.css' %}" rel="stylesheet">
+    <!--
+
+Tooplate 2132 Clean Work
+
+https://www.tooplate.com/view/2132-clean-work
+
+Free Bootstrap 5 HTML Template
+
+-->
+</head>
+
+<body>
+
+    <header class="site-header white-color py-2">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-between">
+
+                <!-- Left Side -->
+                <div class="col-md-9 col-8 d-flex flex-wrap align-items-center">
+                    <p class="d-flex me-4 mb-0 text-white">
+                        <i class="bi-house-fill me-2"></i>
+                        Private Health Services Network
+                    </p>
+
+                    <p class="d-flex d-lg-block d-md-block d-none me-4 mb-0 text-white">
+                        <i class="bi-clock-fill me-2"></i>
+                        <strong class="me-2">Mon - Fri</strong> 8:00 AM - 5:30 PM
+                    </p>
+                </div>
+
+                <!-- Right Side (Logout Button) -->
+                <div class="col-md-3 col-4 d-flex justify-content-end">
+                    <a style="background-color: #79a5e6; border: none; color: white; border-radius: 50px; "
+                        href="{% url 'logout' %}" class="btn btn-light btn-sm">
+                        <i class="bi-box-arrow-right me-1"></i> Logout
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'ambulance.png' %}" class="logo img-fluid" alt="">
+
+                <span class="ms-2"> Private Health Services Network</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if patient_check %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    {% elif driver_check %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'driver_home_page' %}">Home</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_home_page' %}">Home</a>
+                    </li>
+                    {% endif %}
+
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'about' %}">About Us</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'services' %}" id="navbarLightDropdownMenuLink" role="button"
+                            aria-expanded="false">Our Services</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile_image' %}" id="navbarLightDropdownMenuLink" role="button"
+                            aria-expanded="false">Profile</a>
+                    </li>
+
+                    <!-- <li class="nav-item ms-3">
+                            <a class="nav-link custom-btn custom-border-btn custom-btn-bg-white btn" href="#">Get started</a>
+                        </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <section class="banner-section d-flex justify-content-center align-items-end">
+            <div class="section-overlay"></div>
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-7 col-12">
+                        <h1 class="text-white mb-lg-0">About Us</h1>
+                    </div>
+
+                    <div class="col-lg-4 col-12 d-flex justify-content-lg-end align-items-center ms-auto">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+
+                                <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-12">
+                        <img src="{% static 'images/intro_image.png' %}" class="featured-image img-fluid">
+                    </div>
+
+                    <div class="col-lg-6 col-12">
+                        <div class="featured-block">
+                            <h2 class="mb-4">Cleaning Service Agency Since 2018</h2>
+
+                            <p>Private Health Services Network is an innovative platform designed to connect patients
+                                with nearby ambulance drivers in real time. Whether it's a road accident, medical
+                                emergency, or critical situation, our system allows users to request the nearest
+                                available ambulance instantly—just like ride-hailing apps.
+
+                                Drivers can register, log in, and mark themselves as available, making emergency
+                                response faster and more efficient. Our goal is to modernize the emergency healthcare
+                                system by bridging the gap between patients and ambulance services.
+
+                                We aim to provide a secure, reliable, and user-friendly experience for both patients and
+                                drivers—ensuring help is just a few taps away.</p>
+
+
+
+                            <a class="custom-btn btn button button--atlas mt-3" href="{% url 'contact' %}">
+                                <span>Get in touch</span>
+
+                                <div class="marquee" aria-hidden="true">
+                                    <div class="marquee__inner">
+                                        <span>Get in touch</span>
+                                        <span>Get in touch</span>
+                                        <span>Get in touch</span>
+                                        <span>Get in touch</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section class="team-section section-padding section-bg">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12 col-12">
+                        <h2 class="mb-4">Meet People</h2>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-12 mb-lg-0 mb-md-5">
+                        <img src="{% static 'images/teams/about_image1.png' %}" class="team-image img-fluid">
+                    </div>
+
+                    <div
+                        class="col-lg-3 col-md-6 col-12 d-flex justify-content-lg-center mt-4 mt-lg-0 mt-md-0 mb-5 mb-lg-0">
+                        <div class="team-info mx-auto mx-lg-0">
+                            <h4 class="mb-2">Josh</h4>
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing tempor incididunt dolore magna</p>
+
+                            <div class="border-top mt-3 pt-3">
+                                <p class="d-flex mb-0">
+                                    <i class="bi-whatsapp me-2"></i>
+
+                                    <a href="tel: 123456789">
+                                        123456789
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-lg-3 col-md-6 col-12">
+                            <img src="{% static 'images/teams/about_image2.png' %}" class="team-image img-fluid">
+                        </div> -->
+
+                    <!-- <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-lg-center mt-4 mt-lg-0 mt-md-0">
+                            <div class="team-info mx-auto mx-lg-0">
+                                <h4 class="mb-2">Marie</h4>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing tempor incididunt dolore magna</p>
+
+                                <div class="border-top mt-3 pt-3">
+                                    <p class="d-flex mb-0">
+                                        <i class="bi-whatsapp me-2"></i>
+
+                                        <a href="tel: 123456789">
+                                            123456789
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div> -->
+
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-12 col-12 d-flex align-items-center mb-4 pb-2">
+                    <div>
+                        <img src="{% static 'ambulance.png' %}" class="logo img-fluid" alt="">
+                    </div>
+
+                    <ul class="footer-menu d-flex flex-wrap ms-5">
+                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">About Us</a></li>
+
+                        <!-- <li class="footer-menu-item"><a href="#" class="footer-menu-link">Reviews</a></li> -->
+
+                        <li class="footer-menu-item"><a href="{% url 'contact' %}" class="footer-menu-link">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-5 col-12 mb-4 mb-lg-0">
+                    <h5 class="site-footer-title mb-3">Our Services</h5>
+
+                    <ul class="footer-menu">
+                        <li class="footer-menu-item">
+                            <a href="#" class="footer-menu-link">
+                                <i class="bi-chevron-double-right footer-menu-link-icon me-2"></i>
+                                Health Services
+                            </a>
+                        </li>
+
+                        <!-- <li class="footer-menu-item">
+                                <a href="#" class="footer-menu-link">
+                                    <i class="bi-chevron-double-right footer-menu-link-icon me-2"></i>
+                                    Car Washing
+                                </a>
+                            </li> -->
+
+                        <!-- <li class="footer-menu-item">
+                                <a href="#" class="footer-menu-link">
+                                    <i class="bi-chevron-double-right footer-menu-link-icon me-2"></i>
+                                    Laundry
+                                </a>
+                            </li> -->
+
+                        <!-- <li class="footer-menu-item">
+                                <a href="#" class="footer-menu-link">
+                                    <i class="bi-chevron-double-right footer-menu-link-icon me-2"></i>
+                                    Office Cleaning
+                                </a>
+                            </li> -->
+                        <!-- 
+                            <li class="footer-menu-item">
+                                <a href="#" class="footer-menu-link">
+                                    <i class="bi-chevron-double-right footer-menu-link-icon me-2"></i>
+                                    Toilet Cleaning
+                                </a>
+                            </li>
+                        </ul> -->
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0 mb-md-0">
+                    <!-- <h5 class="site-footer-title mb-3">Office</h5>
+
+                        <p class="text-white d-flex mt-3 mb-2">
+                            <i class="bi-geo-alt-fill me-2"></i>
+                            Akershusstranda 20, 0150 Oslo, Norway
+                        </p> -->
+
+                    <p class="text-white d-flex mb-2">
+                        <i class="bi-telephone-fill me-2"></i>
+
+                        <a href="tel: 123456789" class="site-footer-link">
+                            123456789
+                        </a>
+                    </p>
+
+                    <p class="text-white d-flex">
+                        <i class="bi-envelope-fill me-2"></i>
+
+                        <a href="mailto:info@company.com" class="site-footer-link">
+                            gmail@company.com
+                        </a>
+                    </p>
+
+                    <ul class="social-icon mt-4">
+                        <li class="social-icon-item">
+                            <a href="#" class="social-icon-link button button--skoll">
+                                <span></span>
+                                <span class="bi-twitter"></span>
+                            </a>
+                        </li>
+
+                        <li class="social-icon-item">
+                            <a href="#" class="social-icon-link button button--skoll">
+                                <span></span>
+                                <span class="bi-facebook"></span>
+                            </a>
+                        </li>
+
+                        <li class="social-icon-item">
+                            <a href="#" class="social-icon-link button button--skoll">
+                                <span></span>
+                                <span class="bi-instagram"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-6 mt-3 mt-lg-0 mt-md-0">
+                    <div class="featured-block">
+                        <h5 class="text-white mb-3">Health Care Services</h5>
+
+                        <strong class="d-block text-white mb-1">Mon - Fri</strong>
+
+                        <p class="text-white mb-3">8:00 AM - 5:30 PM</p>
+
+                        <strong class="d-block text-white mb-1">Sat</strong>
+
+                        <p class="text-white mb-0">6:00 AM - 2:30 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-footer-bottom">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-12">
+                        <p class="copyright-text mb-0">Copyright © 2025 Health services</p>
+                    </div>
+
+                    <div class="col-lg-6 col-12 text-end">
+                        <p class="copyright-text mb-0">
+                            Designed by xyz</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.backstretch.min.js' %}"></script>
+    <script src="{% static 'js/counter.js' %}"></script>
+    <script src="{% static 'js/countdown.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    <script src="{% static 'js/modernizr.js' %}"></script>
+    <script src="{% static 'js/animated-headline.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+
+</html>
