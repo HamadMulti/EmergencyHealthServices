@@ -50,7 +50,9 @@ def signup(request):
         if role == 'patient':
             Patient.objects.create(username=username, email=email, password=password, location=location)
         elif role == 'ambulance':
-            AmbulanceDriver.objects.create(username=username, email=email, password=password, location=location)
+            #change for Aprovel
+            AmbulanceDriver.objects.create(username=username, email=email, password=password, location=location,is_active=False)
+            messages.success(request, "Signup successful! Your account is pending approval from the main admin.")
         elif role == 'admin':
             AdminStaff.objects.create(username=username, email=email, password=password)
 
@@ -80,6 +82,10 @@ def signin(request):
         # Ambulance driver check
         if AmbulanceDriver.objects.filter(email=email, password=password).exists():
             driver = AmbulanceDriver.objects.get(email=email, password=password)
+            #admin Check
+            if not driver.is_active:
+                 messages.error(request, "Your account is pending approval by the main admin.")
+                 return redirect('signin')
             user_location = driver.location
             driver_check = True
             request.session['user_email'] = driver.email

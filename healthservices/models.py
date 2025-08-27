@@ -21,6 +21,7 @@ class AmbulanceDriver(models.Model):
     image = models.ImageField(upload_to='profile_images/', default='profile_images/ambulance_driver.png', blank=True)
     location = models.CharField(max_length=100, blank=True)
     is_active = models.BooleanField(default=False)  # New field added
+    
 
     def __str__(self):
         return f"Ambulance Driver: {self.username}"

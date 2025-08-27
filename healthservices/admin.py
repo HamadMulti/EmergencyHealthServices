@@ -16,6 +16,9 @@ class PatientAdmin(admin.ModelAdmin):
 # AmbulanceDriver Admin
 class AmbulanceDriverAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'location', 'is_active' , 'show_image')
+    #change for aprovel
+    list_filter = ('is_active',)
+    search_fields = ('username', 'email')
 
     def show_image(self, obj):
         if obj.image:
