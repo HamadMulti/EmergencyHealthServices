@@ -71,17 +71,29 @@
         data: {
             labels: ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
             datasets: [{
+<<<<<<< HEAD
                     label: "Faisalabad",
+=======
+                    label: "London",
+>>>>>>> 133a3d2 (Initial commit)
                     data: [15, 30, 55, 65, 60, 80, 95],
                     backgroundColor: "rgb(255,255,255)"
                 },
                 {
+<<<<<<< HEAD
                     label: "Lahore",
+=======
+                    label: "Liverpool",
+>>>>>>> 133a3d2 (Initial commit)
                     data: [8, 35, 40, 60, 70, 55, 75],
                     backgroundColor: "rgba(170, 159, 159, 0.5)"
                 },
                 {
+<<<<<<< HEAD
                     label: "Islamabad",
+=======
+                    label: "Birmingham",
+>>>>>>> 133a3d2 (Initial commit)
                     data: [12, 25, 45, 55, 65, 70, 60],
                     backgroundColor: "rgb(255,255,255)"
                 }
@@ -100,13 +112,21 @@
         data: {
             labels: ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
             datasets: [{
+<<<<<<< HEAD
                     label: "Faisalabad",
+=======
+                    label: "London",
+>>>>>>> 133a3d2 (Initial commit)
                     data: [15, 30, 55, 45, 70, 65, 85],
                     backgroundColor: "rgb(255,255,255)",
                     fill: true
                 },
                 {
+<<<<<<< HEAD
                     label: "Lahore",
+=======
+                    label: "Liverpool",
+>>>>>>> 133a3d2 (Initial commit)
                     data: [99, 135, 170, 130, 190, 180, 270],
                     backgroundColor: "rgba(190, 190, 190, 0.5)",
                     fill: true

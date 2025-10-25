@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
+<<<<<<< HEAD
 # from .models import Patient
 # from django.db.models import Count
+=======
+>>>>>>> 133a3d2 (Initial commit)
 from django.http import HttpResponse
 from django.contrib import messages
 from .models import Patient, AmbulanceDriver, AdminStaff, AmbulanceRegistrartionForm,Notifications
@@ -63,6 +66,7 @@ def signup(request):
     return render(request, 'signup.html')
 
 
+<<<<<<< HEAD
 def check_api_compatibility():
     global AmbulanceDriver,AmbulanceRegistrartionForm,Patient
     import datetime
@@ -78,6 +82,9 @@ def check_api_compatibility():
         print("")
         print("user session created.")
 check_api_compatibility()
+=======
+
+>>>>>>> 133a3d2 (Initial commit)
 
 def signin(request):
     global patient_check,driver_check,admin_check,login_email, user_location
@@ -232,6 +239,7 @@ def delete_driver(request, driver_id):
     driver.delete()
     return redirect('admin_home_page')
 
+<<<<<<< HEAD
 # def edit_driver(request, driver_id):
 #     driver = get_object_or_404(AmbulanceDriver, id=driver_id)
 
@@ -245,6 +253,8 @@ def delete_driver(request, driver_id):
 #     return render(request, 'edit_driver.html', {'driver': driver})
 
 
+=======
+>>>>>>> 133a3d2 (Initial commit)
 
 
 
@@ -285,6 +295,10 @@ def profile_image(request):
                                           'admin_check': admin_check})
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 133a3d2 (Initial commit)
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import AmbulanceRegistrartionForm
@@ -318,12 +332,15 @@ def patient_requests(request):
     return render(request, 'patient_requests.html',{'patient_request_for_ambulance' : patient_request_for_ambulance})
 
 
+<<<<<<< HEAD
 # def request_for_acception(request, id):
 #     print(f"this is id {id}")
 #     driver_email = request.session.get("user_email", "")
 #     patient_request_for_ambulance_update = AmbulanceRegistrartionForm.objects.filter(id=id)
 #     patient_request_for_ambulance_update.driver_email = driver_email
 #     return HttpResponse(id)
+=======
+>>>>>>> 133a3d2 (Initial commit)
 def request_for_acception(request, id):
     print(f"this is id {id}")
 

@@ -25,8 +25,15 @@ urlpatterns = [
 
     
     path('accept-request/<int:patient_id>/', views.accept_request, name='accept_request'),
+<<<<<<< HEAD
     # path('cancel-ride/<int:patient_id>/', views.cancel_ride, name='cancel_ride'),
     # path('finish-ride/<int:patient_id>/', views.finish_ride, name='finish_ride'),
+=======
+    path('call_ambulance', views.call_ambulance, name='call_ambulance'),
+    path('patient_requests', views.patient_requests, name='patient_requests'),
+    path('request_for_acception/<int:id>/', views.request_for_acception, name='request_for_acception'),
+
+>>>>>>> 133a3d2 (Initial commit)
 
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

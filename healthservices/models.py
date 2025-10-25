@@ -34,3 +34,27 @@ class AdminStaff(models.Model):
 
     def __str__(self):
         return f"Admin: {self.username}"
+<<<<<<< HEAD
+=======
+
+
+class AmbulanceRegistrartionForm(models.Model):
+    patient_email = models.CharField(max_length=100) 
+    driver_email = models.CharField(max_length=100, blank=True, null=True)   
+    patient_current_location = models.CharField(max_length=100)
+    patient_phone_number = models.CharField(max_length=100)
+    patient_emergency_condition = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.patient_current_location} - {self.patient_emergency_condition}"
+    
+class Notifications(models.Model):
+    patient_email = models.CharField(max_length=100) 
+    driver_email = models.CharField(max_length=100, blank=True, null=True)   
+    message = models.CharField(max_length=255)   
+    date_and_time = models.DateTimeField(default=timezone.now)  
+
+    def __str__(self):
+        return f"Notification for {self.patient_email} from {self.driver_email or 'System'}"
+    
+>>>>>>> 133a3d2 (Initial commit)
