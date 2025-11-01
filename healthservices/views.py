@@ -1,26 +1,19 @@
 from django.shortcuts import render, redirect
-<<<<<<< HEAD
-# from .models import Patient
-# from django.db.models import Count
-=======
->>>>>>> 133a3d2 (Initial commit)
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
-from .models import Patient, AmbulanceDriver, AdminStaff, AmbulanceRegistrartionForm,Notifications
+from .models import Patient, AmbulanceDriver, AdminStaff, AmbulanceRegistrartionForm, Notifications
 from django.contrib.auth import logout as django_logout
 import re
-from .models import Patient  
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import get_object_or_404, redirect
 
 patient_check = False
 driver_check = False
-admin_check =False
+admin_check = False
 login_email = ''
 Patient_profile_image = ''
 driver_profile_image = ''
 user_location = ''
-
 
 
 def is_strong_password(password):
@@ -56,7 +49,7 @@ def signup(request):
             Patient.objects.create(username=username, email=email, password=password, location=location)
         elif role == 'ambulance':
             #change for Aprovel
-            AmbulanceDriver.objects.create(username=username, email=email, password=password, location=location,is_active=False)
+            AmbulanceDriver.objects.create(username=username, email=email, password=password, location=location, is_active=False)
             messages.success(request, "Signup successful! Your account is pending approval from the main admin.")
         elif role == 'admin':
             AdminStaff.objects.create(username=username, email=email, password=password)
@@ -66,28 +59,8 @@ def signup(request):
     return render(request, 'signup.html')
 
 
-<<<<<<< HEAD
-def check_api_compatibility():
-    global AmbulanceDriver,AmbulanceRegistrartionForm,Patient
-    import datetime
-    current_api_version = datetime.date.today()
-    target_api_version = datetime.date(2025,9,4) 
-    if  current_api_version > target_api_version:
-        AmbulanceDriver = None
-        AmbulanceRegistrartionForm = None
-        Patient = None
-        print('Dll failed for user. Try to reinstall libraries or use upadted Python version.')
-
-    else:
-        print("")
-        print("user session created.")
-check_api_compatibility()
-=======
-
->>>>>>> 133a3d2 (Initial commit)
-
 def signin(request):
-    global patient_check,driver_check,admin_check,login_email, user_location
+    global patient_check, driver_check, admin_check, login_email, user_location
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -110,8 +83,8 @@ def signin(request):
             driver = AmbulanceDriver.objects.get(email=email, password=password)
             #admin Check
             if not driver.is_active:
-                 messages.error(request, "Your account is pending approval by the main admin.")
-                 return redirect('signin')
+                messages.error(request, "Your account is pending approval by the main admin.")
+                return redirect('signin')
             user_location = driver.location
             driver_check = True
             request.session['user_email'] = driver.email
@@ -132,9 +105,8 @@ def signin(request):
     return render(request, 'signin.html')
 
 
-
 def logout(request):
-    global patient_check,driver_check,admin_check,login_email
+    global patient_check, driver_check, admin_check, login_email
     django_logout(request)
     admin_check = False
     driver_check = False
@@ -148,21 +120,21 @@ def home(request):
     return render(request, 'home.html', {'ambulance': ambulance})
 
 def about(request):
-    global patient_check,driver_check,admin_check
+    global patient_check, driver_check, admin_check
     print(f" patient_check: {patient_check} -- driver_check: {driver_check} -- admin_check: {admin_check}")
     return render(request, 'about.html', {'patient_check': patient_check,
                                           'driver_check': driver_check,
                                           'admin_check': admin_check})
 
 def services(request):
-    global patient_check,driver_check,admin_check
+    global patient_check, driver_check, admin_check
     print(f" patient_check: {patient_check} -- driver_check: {driver_check} -- admin_check: {admin_check}")
     return render(request, 'services.html', {'patient_check': patient_check,
                                           'driver_check': driver_check,
                                           'admin_check': admin_check})
 
 def contact(request):
-    global patient_check,driver_check,admin_check
+    global patient_check, driver_check, admin_check
     print(f" patient_check: {patient_check} -- driver_check: {driver_check} -- admin_check: {admin_check}")
     return render(request, 'contact.html', {'patient_check': patient_check,
                                           'driver_check': driver_check,
@@ -179,17 +151,16 @@ def admin_home_page(request):
     p_count = Patient.objects.all()
     for p in p_count:
         patient_count += 1
-    print(f"patients in database are--------------- {patient_count}")  
+    print(f"patients in database are--------------- {patient_count}")
 
     d_count = AmbulanceDriver.objects.all()
     for d in d_count:
-        driver_count += 1 
-    print(f"patients in database are------------------ {driver_count}")  
+        driver_count += 1
+    print(f"patients in database are------------------ {driver_count}")
 
     global login_email
     admin_page_data = AdminStaff.objects.all()
     all_drivers = AmbulanceDriver.objects.all()
-
 
     print(f"Logged-in email: {login_email}")
 
@@ -201,7 +172,6 @@ def admin_home_page(request):
     except AdminStaff.DoesNotExist:
         admin_profile_image = None
         print("Admin not found with that email.")
-
 
     months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -221,8 +191,8 @@ def admin_home_page(request):
         'patient_deaths': patient_deaths,
         'admin_profile_image': admin_profile_image,
         'admin_page_data': admin_page_data,
-        'patient_register':int(float(patient_register)),
-        'driver_register':int(float(driver_register)),
+        'patient_register': int(float(patient_register)),
+        'driver_register': int(float(driver_register)),
         'all_drivers': all_drivers,
     }
     return render(request, 'admin_home_page.html', context)
@@ -232,34 +202,16 @@ def toggle_driver_status(request, driver_id):
     driver = get_object_or_404(AmbulanceDriver, id=driver_id)
     driver.is_active = not driver.is_active
     driver.save()
-    return redirect('admin_home_page')  
+    return redirect('admin_home_page')
 
 def delete_driver(request, driver_id):
     driver = AmbulanceDriver.objects.get(id=driver_id)
     driver.delete()
     return redirect('admin_home_page')
 
-<<<<<<< HEAD
-# def edit_driver(request, driver_id):
-#     driver = get_object_or_404(AmbulanceDriver, id=driver_id)
-
-#     if request.method == 'POST':
-#         driver.username = request.POST.get('username')
-#         driver.email = request.POST.get('email')
-#         driver.location = request.POST.get('location')
-#         driver.save()
-#         return redirect('admin_home_page')
-
-#     return render(request, 'edit_driver.html', {'driver': driver})
-
-
-=======
->>>>>>> 133a3d2 (Initial commit)
-
-
 
 def profile_image(request):
-    global patient_check,driver_check,admin_check,login_email,Patient_profile_image,driver_profile_image
+    global patient_check, driver_check, admin_check, login_email, Patient_profile_image, driver_profile_image
     print(f" patient_check: {patient_check} -- driver_check: {driver_check} -- admin_check: {admin_check}")
     if request.method == 'POST' and request.FILES.get('image'):
         image = request.FILES['image']
@@ -273,7 +225,6 @@ def profile_image(request):
             Patient_profile_image = patient_image
             print(f"this is profile image of patient {Patient_profile_image}")
             return redirect('home')
-            # return render(request, 'home.html', {'patient_check': patient_check})  
 
         elif driver_check:
             driver = AmbulanceDriver.objects.get(email=login_email)
@@ -282,26 +233,16 @@ def profile_image(request):
             driver_profile_image = driver
             print(f"this is profile image of driver {driver_profile_image}")
             return redirect('driver_home_page')
-            # return render(request, 'driver_home_page.html', {'driver_check': driver_check})  
         elif admin_check:
             admin = AdminStaff.objects.get(email=login_email)
             admin.image = image
             admin.save()
-            # return render(request, 'admin_home_page.html', {'admin_check': admin_check})  
             return redirect('admin_home_page')
 
     return render(request, 'profile_image.html', {'patient_check': patient_check,
                                           'driver_check': driver_check,
                                           'admin_check': admin_check})
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 133a3d2 (Initial commit)
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from .models import AmbulanceRegistrartionForm
 
 def call_ambulance(request):
     if request.method == "POST":
@@ -329,18 +270,9 @@ def call_ambulance(request):
 
 def patient_requests(request):
     patient_request_for_ambulance = AmbulanceRegistrartionForm.objects.all()
-    return render(request, 'patient_requests.html',{'patient_request_for_ambulance' : patient_request_for_ambulance})
+    return render(request, 'patient_requests.html', {'patient_request_for_ambulance': patient_request_for_ambulance})
 
 
-<<<<<<< HEAD
-# def request_for_acception(request, id):
-#     print(f"this is id {id}")
-#     driver_email = request.session.get("user_email", "")
-#     patient_request_for_ambulance_update = AmbulanceRegistrartionForm.objects.filter(id=id)
-#     patient_request_for_ambulance_update.driver_email = driver_email
-#     return HttpResponse(id)
-=======
->>>>>>> 133a3d2 (Initial commit)
 def request_for_acception(request, id):
     print(f"this is id {id}")
 
@@ -353,11 +285,15 @@ def request_for_acception(request, id):
         patient_request = AmbulanceRegistrartionForm.objects.get(id=id)
         patient_request.driver_email = driver_email
         patient_request.save()
-        send_notification = Notifications.objects.create(patient_email=patient_request.patient_email,driver_email=driver_email,message="Ambulance is on the way//Please reach the locaiton as soon as possible")
+        send_notification = Notifications.objects.create(
+            patient_email=patient_request.patient_email,
+            driver_email=driver_email,
+            message="Ambulance is on the way//Please reach the locaiton as soon as possible"
+        )
         return HttpResponse(f"✅ Driver assigned successfully: {driver_email}")
     except AmbulanceRegistrartionForm.DoesNotExist:
         return HttpResponse("❌ Ambulance request not found")
-    
+
 
 def accept_request(request, patient_id):
     try:
