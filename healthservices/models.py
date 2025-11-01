@@ -20,9 +20,8 @@ class AmbulanceDriver(models.Model):
     password = models.CharField(max_length=100)
     image = models.ImageField(upload_to='profile_images/', default='profile_images/ambulance_driver.png', blank=True)
     location = models.CharField(max_length=100, blank=True)
-    is_active = models.BooleanField(default=False)  # New field added
+    is_active = models.BooleanField(default=False)
     
-
     def __str__(self):
         return f"Ambulance Driver: {self.username}"
 
@@ -34,9 +33,6 @@ class AdminStaff(models.Model):
 
     def __str__(self):
         return f"Admin: {self.username}"
-<<<<<<< HEAD
-=======
-
 
 class AmbulanceRegistrartionForm(models.Model):
     patient_email = models.CharField(max_length=100) 
@@ -56,5 +52,3 @@ class Notifications(models.Model):
 
     def __str__(self):
         return f"Notification for {self.patient_email} from {self.driver_email or 'System'}"
-    
->>>>>>> 133a3d2 (Initial commit)
