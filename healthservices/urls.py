@@ -1,9 +1,7 @@
 from django.urls import path
-from . import views 
-from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import *
+from . import views
 
 urlpatterns = [
     path('', views.signin, name='signin'),
@@ -18,22 +16,12 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('profile_image', views.profile_image, name='profile_image'),
 
-
     path('admin_home_page/toggle-driver/<int:driver_id>/', views.toggle_driver_status, name='toggle_driver_status'),
-    # path('admin_home_page/edit-driver/<int:driver_id>/', views.edit_driver, name='edit_driver'),
     path('admin_home_page/delete-driver/<int:driver_id>/', views.delete_driver, name='delete_driver'),
 
-    
     path('accept-request/<int:patient_id>/', views.accept_request, name='accept_request'),
-<<<<<<< HEAD
-    # path('cancel-ride/<int:patient_id>/', views.cancel_ride, name='cancel_ride'),
-    # path('finish-ride/<int:patient_id>/', views.finish_ride, name='finish_ride'),
-=======
     path('call_ambulance', views.call_ambulance, name='call_ambulance'),
     path('patient_requests', views.patient_requests, name='patient_requests'),
     path('request_for_acception/<int:id>/', views.request_for_acception, name='request_for_acception'),
 
->>>>>>> 133a3d2 (Initial commit)
-
-
-]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
